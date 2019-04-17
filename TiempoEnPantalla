@@ -9,6 +9,15 @@ tiempo_x_casa <- tiempo_en_pantalla %>%
   summarise(minutos=sum(minutos_pantalla), epi=sum(episodios))
 
 
+#Asignamos a Jon a los Stark
+tiempo_x_casa$casa[tiempo_x_casa$casa == "Snow"] <- "Stark"
+
+#Sumarizamos de nuevo
+tiempo_x_casa <- tiempo_x_casa %>%
+  group_by(casa) %>%
+  summarise(minutos=sum(minutos), epi=sum(epi))
+
+#Graficamos
 tiempo_x_casa%>%
   arrange(desc(minutos)) %>%
   top_n(15) %>%
@@ -24,7 +33,7 @@ tiempo_x_casa%>%
   arrange(desc(epi)) %>%
   top_n(15) %>%
   mutate(name = fct_reorder(casa, epi)) %>%
-  ggplot( aes(fill=casa, x=name, y=minutos)) +
+  ggplot( aes(fill=casa, x=name, y=epi)) +
   geom_bar(stat="identity") +
   coord_flip() +
   xlab("Casa") + ylab("Cantidad de Episodios")+
