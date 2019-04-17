@@ -17,7 +17,8 @@ tiempo_x_casa%>%
   geom_bar(stat="identity") +
   coord_flip() +
   xlab("Casa") + ylab("Minutos en pantalla")+
-  theme(legend.position="none") 
+  theme(legend.position="none") +
+  ggtitle ("TOP 15: Minutos en pantalla por Casa")
 
 tiempo_x_casa%>%
   arrange(desc(epi)) %>%
@@ -27,4 +28,6 @@ tiempo_x_casa%>%
   geom_bar(stat="identity") +
   coord_flip() +
   xlab("Casa") + ylab("Cantidad de Episodios")+
-  theme(legend.position="none")
+  theme(legend.position="none")+
+  ggtitle ("TOP 15: Cantidad de episodios por Casa")
+
