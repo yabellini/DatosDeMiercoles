@@ -1,2 +1,5 @@
-# DatosDeMiercoles_Mundiales
-Repositorio para #DatosDeMiércoles - DataSet 1: Mundiales
+# DatosDeMiercoles
+Repositorio para #DatosDeMiércoles
+
+DataSet 1: Mundiales
+DataSet 2: Juego de Tronos
