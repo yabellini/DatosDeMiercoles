@@ -1,0 +1,30 @@
+library(stringr)
+library(tidyr)
+library(dbplyr)
+library(tidyverse)
+
+tiempo_x_casa <- tiempo_en_pantalla %>%
+  mutate(casa=word(.$nombre,-1))%>%
+  group_by(casa) %>%
+  summarise(minutos=sum(minutos_pantalla), epi=sum(episodios))
+
+
+tiempo_x_casa%>%
+  arrange(desc(minutos)) %>%
+  top_n(15) %>%
+  mutate(name = fct_reorder(casa, minutos)) %>%
+  ggplot( aes(fill=casa, x=name, y=minutos)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  xlab("Casa") + ylab("Minutos en pantalla")+
+  theme(legend.position="none") 
+
+tiempo_x_casa%>%
+  arrange(desc(epi)) %>%
+  top_n(15) %>%
+  mutate(name = fct_reorder(casa, epi)) %>%
+  ggplot( aes(fill=casa, x=name, y=minutos)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  xlab("Casa") + ylab("Cantidad de Episodios")+
+  theme(legend.position="none")
