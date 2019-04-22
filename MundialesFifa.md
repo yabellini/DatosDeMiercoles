@@ -1,0 +1,95 @@
+## Analisis del Primer Data ser de #DatosDeMiercoles
+
+#Cargo los paquetes necesarios para el analisis
+
+library(readr)
+library(tidyverse)
+library(plotly)
+library(ggplot2)
+library(maps)
+library(ggthemes)
+
+#Leo el conjunto de datos a analizar
+fifa <- readr::read_delim("https://raw.githubusercontent.com/jas1/world-cup/master/r/data/20190406_es_final_partidos.txt",delim = "\t")
+
+#Quería saber en que ciudades del mundo se había jugado algún partido
+#y en cuales se habían jugado más
+
+ciudades <- fifa %>%
+  group_by(ciudad) %>%
+  summarise(n()) %>%
+  mutate(ciudad_bien = tolower(str_extract(ciudad, pattern = "\\w+$")))
+  
+#Detecto una serie de problemas en los nombres de las ciudades
+#se le agregan (UTC ...) o un númeral (#) despues del nombre de la ciudad en algunos registros
+#ver por ejemplo Belo Horizonte, Brasilía
+
+
+#Arreglo los errores en los nombres
+
+fifa <- fifa %>%
+  mutate(ciudad = gsub('\\(UTC[[:punct:]][[:digit:]]\\)', "", ciudad)) %>%
+  mutate(ciudad = gsub('#', "", ciudad)) %>%
+  mutate(ciudad = gsub('-', "", ciudad)) %>%
+  mutate(ciudad = gsub('[A-Z][0-9]', "", ciudad)) %>%
+  mutate(ciudad = gsub('[0-9][A-Z]', "", ciudad)) %>%
+  mutate(ciudad = gsub('[0-9]', "", ciudad)) %>%
+  mutate(ciudad = str_trim( ciudad))
+  
+
+#Calculo de nuevo las ciudades
+ciudades <- fifa %>%
+  group_by(ciudad) %>%
+  summarise(n())
+
+#Exporto para poder conseguir las coordenadas
+readr::write_excel_csv(ciudades, path = "ciudades.csv")
+
+#Como algunas ciudades falla en la georefrenciación le agregamos el anfitrión para darle mas datos de ubicación
+
+ciudades <- fifa %>%
+  group_by(anfitrion, ciudad) %>%
+  summarise(n())
+
+#Exporto para poder conseguir las coordenadas
+readr::write_excel_csv(ciudades, path = "ciudades.csv")
+
+#Geocodifico fuera de R y leo los datos nuevos
+ciudades_mundiales <- read_excel("D:/Rladies/MundialesFutbol/ciudades_mundiales.xls", 
+                                 +     sheet = "Hoja1")
+
+#Uno con fifa para tener la latitud y la longitud
+
+fifa <- fifa %>% inner_join(ciudades_mundiales, by = c("ciudad", "anfitrion"))
+
+#Hago un primer mapa con las ciudades donde se han jugado partidos
+world <- ggplot() +
+  borders("world", colour = "gray85", fill = "gray80") +
+  theme_map()
+
+map <- world +
+  geom_point(aes(x = Longitude, y = Latitude,
+                 size = 3),
+             data = fifa, colour = 'purple', alpha = .5) 
+
+
+#un segundo mapa, con el tamaño segun cantidad de partidos que se jugaron
+
+ciudades <- fifa %>%
+  group_by(Latitude, Longitude, anfitrion, ciudad) %>%
+  summarise(cantidad=n())
+
+
+world <- ggplot() +
+  borders("world", colour = "gray85", fill = "gray80") +
+  theme_map()
+
+map <- world +
+  geom_point(aes(x = Longitude, y = Latitude,
+                 size = cantidad),
+             data = ciudades, colour = 'red', alpha = .5) 
+             
+El resultado se ve de esta manera:
+
+<img src="https://github.com/yabellini/DatosDeMiercoles/blob/master/ciudades_mundiales.png" data-canonical-src="https://github.com/yabellini/DatosDeMiercoles/blob/master/ciudades_mundiales.png" width="300" height="100" />
+  
