@@ -15,8 +15,8 @@ En este primer análsis jugué con mapas (que me gustan mucho), asi que georefer
 ### Paises que participaron en mundiales.  Escala de colores de acuerdo a la cantidad de partidos.
 <img src="https://github.com/yabellini/DatosDeMiercoles/blob/master/cantidad_partidos.png" data-canonical-src="https://github.com/yabellini/DatosDeMiercoles/blob/master/cantidad_partidos.png" width="300" height="200" />
 
-# DataSet 2: Juego de Tronos
+## DataSet 2: Juego de Tronos
 
 En este segundo análisis quise ver que familia se robó más pantalla durante las primeras seis temporadas.
 
-# DataSet 3: 
+## DataSet 3: 
