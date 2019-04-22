@@ -4,7 +4,7 @@ Repositorio para el código fuente de #DatosDeMiércoles, una iniciativa de la c
 
 #DataSet 1: Mundiales
 
-En este primer análsis jugué con mapas, que me gustan mucho.  
+En este primer análsis jugué con mapas (que me gustan mucho), asi que georeferencié las ciudades donde se jugaron partidos y las dibujé en un mapa, también hice mapas por paises.  El código y los resultados por aqui.  
 
 #DataSet 2: Juego de Tronos
 
