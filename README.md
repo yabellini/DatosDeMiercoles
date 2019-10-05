@@ -14,4 +14,7 @@ En este primer análsis jugué con mapas (que me gustan mucho), asi que georefer
 
 En este segundo análisis quise ver que familia se robó más pantalla durante las primeras seis temporadas.
 
-## DataSet 3: 
+## DataSet LatinR2019: 
+
+Aqui el [código](https://github.com/yabellini/DatosDeMiercoles/blob/master/LatinR2019.R) de las nubes de palabras y frecuencia de palabras usadas en los tweets de LatinR 219 durante la conferencia.
+
